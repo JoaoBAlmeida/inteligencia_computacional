@@ -16,7 +16,7 @@ namespace DeepSearch_Labyrinth.Services
             int counter = 0;
             try
             {
-                using (StreamReader file = new StreamReader("C:/Users/jpbar/source/repos/DeepSearch_Labyrinth/Maps/" + name + ".txt"))
+                using (StreamReader file = new StreamReader(/*Insert your own directroy here before the Maps folder*/"/DeepSearch_Labyrinth/Maps/" + name + ".txt"))
                 {
                     string ln;
                     while((ln = file.ReadLine()) != null)

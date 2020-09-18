@@ -299,7 +299,11 @@ namespace DeepSearch_Labyrinth.Services
 				}
 				Console.WriteLine();
 			}
-			Console.Write("Order ");
+			Console.WriteLine("Order ");
+            foreach(string place in list)
+            {
+                Console.Write(place + " - ");
+            }
 			Console.WriteLine();
 		}
 
@@ -323,6 +327,10 @@ namespace DeepSearch_Labyrinth.Services
 				Console.WriteLine();
 			}
 			Console.WriteLine("Order");
+            foreach(string way in path)
+            {
+                Console.Write(way + " - ");
+            }
 			Console.WriteLine();
 		}
 
