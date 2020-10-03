@@ -24,6 +24,7 @@ namespace DeepSearch_Labyrinth
                         continue;
                 }
 
+                /*
                 //service.Widesolver();
                 service.Deepsolver();
                 service.printMatrix();
@@ -32,6 +33,14 @@ namespace DeepSearch_Labyrinth
 
                 Console.WriteLine("Custo de Busca: " + service.getSearchCost());
                 Console.WriteLine("Custo do Caminho: " + service.getPathCost());
+                */
+
+                service.printMap();
+                service.Deepsolver();
+                service.printMapPath();
+                Console.WriteLine("Busca pesou: " + service.getSearchCost());
+                Console.WriteLine("Caminho Pesou: " + service.getPathCost());
+                Console.WriteLine("Total de Busca: " + service.getTotalCost());
 
                 Console.WriteLine("================================");
                 Console.WriteLine("Want to try again?\nY | Any other key, finishes app");

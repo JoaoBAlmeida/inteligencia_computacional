@@ -1,6 +1,7 @@
 ﻿using DeepSearch_Labyrinth.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 
 namespace DeepSearch_Labyrinth.Services
@@ -228,9 +229,7 @@ namespace DeepSearch_Labyrinth.Services
                         sul.State = (lin + 1) + ":" + col;
                         sul.Father = node;
                         tree.Enqueue(sul);
-                        list.AddLast(sul.State);
-                        
-                            
+                        list.AddLast(sul.State);  
                     }
 
                     //analisa oeste
@@ -254,6 +253,8 @@ namespace DeepSearch_Labyrinth.Services
                         tree.Enqueue(oeste);
                         list.AddLast(oeste.State);
                     }
+
+                    //Retorna para uma Ramificação Anterior
                     else
                     {
                         Node node1 = ramifications.Last.Value;
@@ -265,22 +266,42 @@ namespace DeepSearch_Labyrinth.Services
             }
         }
 
-		public void printMatrix()
-		{
-			Console.WriteLine("Matrix");
-			for (int l = 0; l < row; l++)
-			{
-				Console.Write("|");
-				for (int c = 0; c < col; c++)
-				{
-					Console.Write(matriz[l,c] + "|");
-				}
-				Console.WriteLine();
-			}
-			Console.WriteLine();
-		}
+        public void printMap()
+        {
+            Console.WriteLine("Map");
+            Console.Write(" ");
+            for (int c = 0; c < col; c++)
+            {
+                Console.Write("-");
+            }
+            Console.WriteLine();
+            for (int l = 0; l < row; l++)
+            {
+                Console.Write("|");
+                for (int c = 0; c < col; c++)
+                {
+                    if (matriz[l, c] == "1") Console.Write(" ");
+                    else if (matriz[l, c] == "0") Console.Write("X");
+                    else if (matriz[l, c] == "G") Console.Write("G");
+                    else if (matriz[l, c] == "S") Console.Write("S");
+                }
+                Console.Write("|");
+                if(l == row - 1)
+                {
+                    Console.WriteLine();
+                    Console.Write(" ");
+                    for (int c = 0; c < col; c++)
+                    {
+                        Console.Write("-");
+                    }
+                }
+                Console.WriteLine();
+            }
+            
+            Console.WriteLine();
+        }
 
-		public void printSearch()
+        public void printSearch()
 		{
 			Console.WriteLine("Search");
 			for (int l = 0; l < row; l++)
@@ -307,35 +328,52 @@ namespace DeepSearch_Labyrinth.Services
 			Console.WriteLine();
 		}
 
-		public void printPath()
-		{
-			Console.WriteLine("Path");
-			for (int l = 0; l < row; l++)
-			{
-				Console.Write("|");
-				for (int c = 0; c < col; c++)
-				{
-					if (path.Contains(l + ":" + c))
-					{
-						Console.Write("#|");
-					}
-					else
-					{
-						Console.Write(" |");
-					}
-				}
-				Console.WriteLine();
-			}
-			Console.WriteLine("Order");
-            foreach(string way in path)
+        public void printMapPath()
+        {
+            Console.WriteLine("Map Path");
+            Console.Write(" ");
+            for (int c = 0; c < col; c++)
+            {
+                Console.Write("-");
+            }
+            Console.WriteLine();
+            for (int l = 0; l < row; l++)
+            {
+                Console.Write("|");
+                for (int c = 0; c < col; c++)
+                {
+                    if (matriz[l, c] == "1")
+                    {
+                        if (path.Contains(l + ":" + c)) Console.Write((char)33);
+                        else Console.Write(" ");
+                    }
+                    else if (matriz[l, c] == "0") Console.Write("X");
+                    else if (matriz[l, c] == "G") Console.Write("G");
+                    else if (matriz[l, c] == "S") Console.Write("S");
+                }
+                Console.Write("|");
+                if (l == row - 1)
+                {
+                    Console.WriteLine();
+                    Console.Write(" ");
+                    for (int c = 0; c < col; c++)
+                    {
+                        Console.Write("-");
+                    }
+                }
+                Console.WriteLine();
+            }
+            Console.WriteLine("Order");
+            foreach (string way in path)
             {
                 Console.Write(way + " - ");
             }
-			Console.WriteLine();
-		}
+            Console.WriteLine();
+            Console.WriteLine();
+        }
 
 
-		public int getTotalCost()
+        public int getTotalCost()
 		{
 			return searchCost + pathCost;
 		}
