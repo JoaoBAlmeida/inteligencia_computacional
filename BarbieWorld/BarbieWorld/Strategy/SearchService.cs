@@ -10,8 +10,8 @@ namespace BarbieWorld.Strategy
     public abstract class SearchService
     {
         protected Node root = new Node();
-        protected List<MapCell> cells = new List<MapCell>();
         protected List<NPC> npcs = new List<NPC>();
+        protected string[,] matriz;
         protected int row = 0;
         protected int col = 0;
         protected int searchCost = 0;
@@ -23,9 +23,9 @@ namespace BarbieWorld.Strategy
         public void SetStage(string fileName)
         {
             WorldReader wr = new WorldReader(fileName);
-            cells = wr.ProcessMap();
+            matriz = wr.ProcessMap();
             GenerateNPCS generator = new GenerateNPCS();
-            npcs = generator.SetNPCs(cells);
+            npcs = generator.SetNPCs(wr.ProcessCell());
             row = wr.GetRows();
             col = wr.GetCols();
             root = NodeRoot();
@@ -33,6 +33,12 @@ namespace BarbieWorld.Strategy
             tree.Enqueue(root);
         }
 
-        public abstract Node NodeRoot();
+        public Node NodeRoot()
+        {
+            return new Node
+            {
+                Pos = new Position { Posx = 19, Posy = 23 }
+            };
+        }
     }
 }

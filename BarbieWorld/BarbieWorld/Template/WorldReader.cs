@@ -15,7 +15,7 @@ namespace BarbieWorld.Template
             GetMap(name);
         }
 
-        public override List<MapCell> ProcessMap()
+        public override List<MapCell> ProcessCell()
         {
             List<MapCell> Cell = new List<MapCell>();
             int i = 0;
@@ -29,12 +29,25 @@ namespace BarbieWorld.Template
                         Weight = Convert.ToInt32(vet[c].Trim()),
                         Color = SetColor(Convert.ToInt32(vet[c].Trim())),
                         Habitable = Convert.ToInt32(vet[c].Trim()) == 0?false:true,
-                        Pos = new Position { Posx = c, Posy = i}
+                        Pos = new Position { Posx = i, Posy = c}
                     });
                 }
                 i++;
             }
             return Cell;
+        }
+
+        public override string[,] ProcessMap()
+        {
+            string[,] mat = new string[GetRows(), GetCols()];
+            int i = 0;
+            foreach (string line in lines)
+            {
+                string[] vet = line.Split(",");
+                for (int c = 0; c < vet.Length; c++) mat[i, c] = vet[c].Trim();
+                i++;
+            }
+            return mat;
         }
 
         public Color SetColor(int reference)

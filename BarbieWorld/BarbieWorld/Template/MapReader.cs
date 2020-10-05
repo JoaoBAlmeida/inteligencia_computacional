@@ -47,6 +47,7 @@ namespace BarbieWorld.Template
             return this.col;
         }
 
-        public abstract List<MapCell> ProcessMap();
+        public abstract List<MapCell> ProcessCell();
+        public abstract string[,] ProcessMap();
     }
 }

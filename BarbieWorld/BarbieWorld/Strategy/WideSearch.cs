@@ -12,15 +12,6 @@ namespace BarbieWorld.Strategy
         {
             SetStage(fileName);
         }
-        public override Node NodeRoot()
-        {
-            //Hard Coded starting position
-            return new Node
-            {
-                Pos = new Position { Posx = 19, Posy = 23}
-            };
-        }
 
-        //Convert WideSearch function here
     }
 }
