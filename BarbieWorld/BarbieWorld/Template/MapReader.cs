@@ -9,8 +9,8 @@ namespace BarbieWorld.Template
 {
     public abstract class MapReader
     {
-        private int row;
-        private int col;
+        protected int row;
+        protected int col;
         protected List<string> lines;
 
         protected void GetMap (string name)

@@ -11,7 +11,7 @@ namespace BarbieWorld.Models
         public bool Habitable { get; set; }
         public int Weight { get; set; }
         public Position Pos { get; set; }
-        //public NPC Npc { get; set; }
+        public List<MapCell> Children { get; set; }
         public override string ToString()
         {
 
