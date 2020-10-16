@@ -20,19 +20,19 @@ namespace BarbieWorld.Template
         public override List<MapCell> ProcessCell()
         {
             List<MapCell> Cell = new List<MapCell>();
-            int id = 0;
-            int i = 0;
+            int id = 1;
+            int i = 1;
             foreach(string line in lines)
             {
                 string[] vet = line.Split(",");
-                for(int c = 0; c < vet.Length; c++)
+                for(int c = 1; c <= vet.Length; c++)
                 {
                     Cell.Add(new MapCell
                     {
                         id = id,
-                        Weight = Convert.ToInt32(vet[c].Trim()),
-                        Color = SetColor(Convert.ToInt32(vet[c].Trim())),
-                        Habitable = Convert.ToInt32(vet[c].Trim()) == 0 ? false : true,
+                        Weight = Convert.ToInt32(vet[c-1].Trim()),
+                        Color = SetColor(Convert.ToInt32(vet[c-1].Trim())),
+                        Habitable = Convert.ToInt32(vet[c-1].Trim()) == 0 ? false : true,
                         Pos = new Position { Posx = i, Posy = c },
                         Children = new List<int>()
                     });
@@ -46,20 +46,22 @@ namespace BarbieWorld.Template
 
         public List<MapCell> ChildrenAdd(List<MapCell> Cells)
         {
-            for(var x = 0; x < (col * row); x++)
+            int aux = 0;
+            for(var x = 1; x <= (col * row); x++)
             {
                 //Esquerda
-                if(x-1 >= 0)
-                    Cells[x].Children.Add(x-1);
+                if(x-1 > 0)
+                    Cells[aux].Children.Add(x-1);
                 //Direita
-                if((x+1)%col != 0)
-                    Cells[x].Children.Add(x+1);
+                if((x)%col != 0)
+                    Cells[aux].Children.Add(x+1);
                 //Baixo
-                if(x + col < row * col)
-                    Cells[x].Children.Add(x + col);
+                if(x + col <= row * col)
+                    Cells[aux].Children.Add(x + col);
                 //Cima
-                if(x - col >= 0)
-                    Cells[x].Children.Add(x - col);
+                if(x - col > 0)
+                    Cells[aux].Children.Add(x - col);
+                aux++;
             }
             return Cells;
         }

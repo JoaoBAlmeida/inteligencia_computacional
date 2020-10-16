@@ -15,35 +15,33 @@ namespace API_BW.Controllers
     [Route("[controller]")]
     public class BarbieWorld : ControllerBase
     {
-        
-        //[HttpGet("GetCells")]
-        public List<MapCell> GetCells()
+        API_Connect BW = new API_Connect();
+
+        [HttpGet]
+        public Object[] GetBW()
         {
-            WorldReader world = new WorldReader("BarbieWorld_Origin");
-            List<MapCell> cells = world.ProcessCell();
-            return cells;
+            Object[] response = new Object[3]{
+                BW.GetMap(), BW.GetNPCs(), BW.GetPath()
+            };
+            return response;
         }
 
-        //[HttpGet("GetNPCs")]
-        public List<NPC> GetNPCs()
-        {
-            WorldReader world = new WorldReader("BarbieWorld_Origin");
-            List<MapCell> cells = world.ProcessCell();
-            GenerateNPCS generator = new GenerateNPCS();
-            List<NPC> npcs = generator.SetNPCs(cells);
-            return npcs;
-        }
-        
         [HttpGet("GetPath")]
         public IEnumerable<uint> GetPath()
         {
-            WorldReader world = new WorldReader("BarbieWorld_Origin");
-            List<MapCell> cells = world.ProcessCell();
-            GenerateNPCS generator = new GenerateNPCS();
-            List<NPC> npcs = generator.SetNPCs(cells);
-            Dijkstra_Search DJ_Search = new Dijkstra_Search();
-            IEnumerable<uint> Path = DJ_Search.search(cells, npcs);
-            return Path;
+            return BW.GetPath();
+        }
+
+        [HttpGet("GetNPC")]
+        public List<NPC> SeeNPC()
+        {
+            return BW.GetNPCs();
+        }
+
+        [HttpGet("GetMAP")]
+        public List<MapCell> SeeMap()
+        {
+            return BW.GetMap();
         }
     }
 }

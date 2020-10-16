@@ -24,8 +24,8 @@ namespace BarbieWorld.Controller
                     list_aux = new List<MapCell>();
                     position = new Position
                     {
-                        Posx = new Random().Next(41),
-                        Posy = new Random().Next(41)
+                        Posx = new Random().Next(41)+1,
+                        Posy = new Random().Next(41)+1
                     };
                     list_aux = cells.Where(c => c.Pos == position && c.Habitable == false).ToList();
                 } 
