@@ -17,7 +17,6 @@ namespace BarbieWorld.Controller
             List<NPC> npcs = new List<NPC>();
             for (int x = 0; x < qtd; x++)
             {
-                int posx, posy;
                 Position position = new Position();
                 var list_aux = new List<MapCell>();
                 do
