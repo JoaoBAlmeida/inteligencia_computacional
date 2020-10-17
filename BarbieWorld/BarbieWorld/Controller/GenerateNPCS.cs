@@ -27,7 +27,7 @@ namespace BarbieWorld.Controller
                         Posx = new Random().Next(41)+1,
                         Posy = new Random().Next(41)+1
                     };
-                    list_aux = cells.Where(c => c.Pos == position && c.Habitable == false).ToList();
+                    list_aux = cells.Where(c => c.Pos == position && c.Color.Equals(System.Drawing.Color.Orange)).ToList();
                 } 
                 while (list_aux.Count != 0);
 

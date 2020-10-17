@@ -30,7 +30,7 @@ namespace BarbieWorld.Template
                     Cell.Add(new MapCell
                     {
                         id = id,
-                        Weight = Convert.ToInt32(vet[c - 1].Trim()),
+                        Weight = SetColor(Convert.ToInt32(vet[c - 1].Trim())).Equals(System.Drawing.Color.Orange)? 1000 : Convert.ToInt32(vet[c - 1].Trim()),
                         Color = SetColor(Convert.ToInt32(vet[c-1].Trim())),
                         Habitable = Convert.ToInt32(vet[c-1].Trim()) == 0 ? false : true,
                         Pos = new Position { Posx = i, Posy = c },

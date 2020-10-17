@@ -27,7 +27,7 @@ namespace API_BW.Controllers
         }
 
         [HttpGet("GetPath")]
-        public IEnumerable<uint> GetPath()
+        public List<IEnumerable<uint>> GetPath()
         {
             return BW.GetPath();
         }

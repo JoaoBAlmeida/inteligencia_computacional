@@ -12,7 +12,7 @@ namespace BarbieWorld.Controller
     {
         // TODO: Reorganizar o path, ele ainda não recebe corretamente os valores que deveria!
         // TODO: Garantir que o loop de amigos contabiliza o caminho todo.
-        public List<uint> search(Position StartPoint, List<MapCell> Cells, List<NPC> npcs)
+        public List<IEnumerable<uint>> search(Position StartPoint, List<MapCell> Cells, List<NPC> npcs)
         {
             var graph = new Graph<int, string>();
             foreach(MapCell cell in Cells)
@@ -30,6 +30,9 @@ namespace BarbieWorld.Controller
                     graph.Connect((uint)cell.id, (uint)child, cell.Weight, "");
                 }
             }
+            //Variavél do caminho
+            IEnumerable<uint>[] path = new IEnumerable<uint>[npcs.Count]; 
+
             //Lista dos Resultados
             ShortestPathResult result;
             //Qual NPC mais perto em linha reta
@@ -44,8 +47,10 @@ namespace BarbieWorld.Controller
             //Contabiliza a resposta caso NPC tenha aceitado
             if (neighbour.Ansr) loop += 1;
             //Cria o caminho e acrescenta valores
-            var path = result.GetPath();
-            //Loop the rest
+            path[0] = result.GetPath();
+
+            //Loop the rest with aux variable
+            int aux = 1;
             do
             {
                 neighbour = NextNeighbour(StartPoint, npcs);
@@ -53,7 +58,8 @@ namespace BarbieWorld.Controller
                 result = graph.Dijkstra((uint)(Cells.Where(c => c.Pos.Posx == StartPoint.Posx && c.Pos.Posy == StartPoint.Posy).ToList().First().id), (uint)(Cells.Where(c => c.Pos.Posx == neighbour.Pos.Posx && c.Pos.Posy == neighbour.Pos.Posy).ToList().First().id));
                 StartPoint = neighbour.Pos;
                 if (neighbour.Ansr) loop += 1;
-                path.Concat(result.GetPath());
+                path[aux] = result.GetPath();
+                aux++;
             } while (loop < 3);
 
             return path.ToList();

@@ -12,7 +12,7 @@ namespace BarbieWorld.Controller
         private List<MapCell> Cells;
         protected List<NPC> Npcs;
         public List<NPC> NpcsAux = new List<NPC>();
-        private List<uint> Path;
+        private List<IEnumerable<uint>> Path;
 
         public API_Connect()
         {
@@ -30,7 +30,7 @@ namespace BarbieWorld.Controller
             });
             //Reconhecendo o Caminho Andando
             Dijkstra_Search DJ_Search = new Dijkstra_Search();
-            Path = DJ_Search.search(new Position { Posx = 1, Posy = 1}, Cells, NpcsAux);
+            Path = DJ_Search.search(new Position { Posx = 41, Posy = 41}, Cells, NpcsAux);
         }
 
         public List<MapCell> GetMap()
@@ -43,7 +43,7 @@ namespace BarbieWorld.Controller
             return Npcs;
         }
 
-        public List<uint> GetPath()
+        public List<IEnumerable<uint>> GetPath()
         {
             return Path;
         }
