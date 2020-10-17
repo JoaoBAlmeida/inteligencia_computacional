@@ -41,7 +41,8 @@ namespace BarbieWorld.Controller
             //Remove da Lista para não contabiliza-lo na proxima chamada
             npcs.Remove(neighbour);
             //Adciona o resultado do Dijkstra na lista dos resultados
-            result = graph.Dijkstra((uint)(Cells.Where(c => c.Pos.Posx == StartPoint.Posx && c.Pos.Posy == StartPoint.Posy ).ToList().First().id), (uint)(Cells.Where(c => c.Pos.Posx == neighbour.Pos.Posx && c.Pos.Posy == neighbour.Pos.Posy).ToList().First().id));
+            result = graph.Dijkstra((uint)(Cells.Where(c => c.Pos.Posx == StartPoint.Posx && c.Pos.Posy == StartPoint.Posy ).ToList().First().id), 
+                (uint)(Cells.Where(c => c.Pos.Posx == neighbour.Pos.Posx && c.Pos.Posy == neighbour.Pos.Posy).ToList().First().id));
             //Coloca a Barbie em sua nova posição
             StartPoint = neighbour.Pos;
             int loop = 0;

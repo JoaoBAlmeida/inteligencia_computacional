@@ -12,7 +12,8 @@ namespace BarbieWorld.Controller
         private List<MapCell> Cells;
         protected List<NPC> Npcs;
         public List<NPC> NpcsAux = new List<NPC>();
-        private List<IEnumerable<uint>> Path;
+        private List<IEnumerable<uint>> Path_Dijkstra;
+        private List<uint> Path;
 
         public API_Connect()
         {
@@ -22,15 +23,28 @@ namespace BarbieWorld.Controller
             //Gerando NPCS
             GenerateNPCS generator = new GenerateNPCS();
             Npcs = generator.SetNPCs(Cells);
+
             //Por motivo de passagem da referência, atribuição direta causa ambos a serem modificados.
             //Solução: Construção externa da lista auxiliar a ser modificada
             Npcs.ForEach((el) =>
             {
                 NpcsAux.Add(el);
             });
-            //Reconhecendo o Caminho Andando
+
+            //Chamada da busca via Dijkstra
             Dijkstra_Search DJ_Search = new Dijkstra_Search();
-            Path = DJ_Search.search(new Position { Posx = 41, Posy = 41}, Cells, NpcsAux);
+            Path_Dijkstra = DJ_Search.search(new Position { Posx = 41, Posy = 41}, Cells, NpcsAux);
+
+            //Por motivo de passagem da referência, atribuição direta causa ambos a serem modificados.
+            //Solução: Construção externa da lista auxiliar a ser modificada
+            Npcs.ForEach((el) =>
+            {
+                NpcsAux.Add(el);
+            });
+
+            //Chamada de Busca via A Estrela
+            AStar_Search ASearch = new AStar_Search();
+            Path = ASearch.search(new Position { Posx = 41, Posy = 41 }, Cells, NpcsAux);
         }
 
         public List<MapCell> GetMap()
@@ -43,21 +57,35 @@ namespace BarbieWorld.Controller
             return Npcs;
         }
 
-        public List<IEnumerable<uint>> GetPath()
+        public List<IEnumerable<uint>> GetPath_Dijkstra()
+        {
+            return Path_Dijkstra;
+        }
+
+        public List<uint> GetPath()
         {
             return Path;
         }
-
-        public List<uint> GetCost()
+        public List<uint> GetCost_Dijkstra()
         {
             List<uint> cost = new List<uint>();
-            foreach(IEnumerable<uint> walk in Path)
+            foreach(IEnumerable<uint> walk in Path_Dijkstra)
             {
                 if (!(walk == null))
                     foreach(uint step in walk)
                     {
                         cost.Add((uint)(Cells.Where(c => c.id == step).ToList().First().Weight));
                     }
+            }
+            return cost;
+        }
+
+        public List<uint> GetCost()
+        {
+            List<uint> cost = new List<uint>();
+            foreach(uint step in Path)
+            {
+                cost.Add((uint)(Cells.Where(c => c.id == step).ToList().First().Weight));
             }
             return cost;
         }
