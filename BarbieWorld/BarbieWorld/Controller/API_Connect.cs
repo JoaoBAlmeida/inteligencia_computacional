@@ -30,7 +30,7 @@ namespace BarbieWorld.Controller
             });
             //Reconhecendo o Caminho Andando
             Dijkstra_Search DJ_Search = new Dijkstra_Search();
-            Path = DJ_Search.search(new Position { Posx = 30, Posy = 25}, Cells, NpcsAux);
+            Path = DJ_Search.search(new Position { Posx = 1, Posy = 1}, Cells, NpcsAux);
         }
 
         public List<MapCell> GetMap()

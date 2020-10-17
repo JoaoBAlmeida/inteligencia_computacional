@@ -30,7 +30,7 @@ namespace BarbieWorld.Template
                     Cell.Add(new MapCell
                     {
                         id = id,
-                        Weight = Convert.ToInt32(vet[c-1].Trim()),
+                        Weight = Convert.ToInt32(vet[c - 1].Trim()),
                         Color = SetColor(Convert.ToInt32(vet[c-1].Trim())),
                         Habitable = Convert.ToInt32(vet[c-1].Trim()) == 0 ? false : true,
                         Pos = new Position { Posx = i, Posy = c },
@@ -65,6 +65,7 @@ namespace BarbieWorld.Template
             }
             return Cells;
         }
+
         #region arvore por objeto
         /*
         public List<MapCell> mountTree(List<MapCell> Cells)

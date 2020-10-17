@@ -17,22 +17,27 @@ namespace BarbieWorld.Controller
             var graph = new Graph<int, string>();
             foreach(MapCell cell in Cells)
             {
-                graph.AddNode(cell.id + 1);
                 foreach(int child in cell.Children)
+                {
+                    graph.AddNode(cell.id);
+                }
+            }
+
+            foreach (MapCell cell in Cells)
+            {
+                foreach (int child in cell.Children)
                 {
                     graph.Connect((uint)cell.id, (uint)child, cell.Weight, "");
                 }
             }
             //Lista dos Resultados
-            //===============List<ShortestPathResult> results = new List<ShortestPathResult>();
             ShortestPathResult result;
             //Qual NPC mais perto em linha reta
             NPC neighbour = NextNeighbour(StartPoint, npcs);
             //Remove da Lista para não contabiliza-lo na proxima chamada
             npcs.Remove(neighbour);
             //Adciona o resultado do Dijkstra na lista dos resultados
-            //===================results.Add(graph.Dijkstra((uint)(StartPoint.Posx*StartPoint.Posy), (uint)(neighbour.Pos.Posx* neighbour.Pos.Posy)));
-            result = graph.Dijkstra((uint)((StartPoint.Posx) * (StartPoint.Posy)), (uint)((neighbour.Pos.Posx) * (neighbour.Pos.Posy)));
+            result = graph.Dijkstra((uint)(Cells.Where(c => c.Pos.Posx == StartPoint.Posx && c.Pos.Posy == StartPoint.Posy ).ToList().First().id), (uint)(Cells.Where(c => c.Pos.Posx == neighbour.Pos.Posx && c.Pos.Posy == neighbour.Pos.Posy).ToList().First().id));
             //Coloca a Barbie em sua nova posição
             StartPoint = neighbour.Pos;
             int loop = 0;
@@ -45,8 +50,7 @@ namespace BarbieWorld.Controller
             {
                 neighbour = NextNeighbour(StartPoint, npcs);
                 npcs.Remove(neighbour);
-                //===================results.Add(graph.Dijkstra((uint)(StartPoint.Posx * StartPoint.Posy), (uint)(neighbour.Pos.Posx * neighbour.Pos.Posy)));
-                result = graph.Dijkstra((uint)((StartPoint.Posx) * (StartPoint.Posy)), (uint)((neighbour.Pos.Posx) * (neighbour.Pos.Posy)));
+                result = graph.Dijkstra((uint)(Cells.Where(c => c.Pos.Posx == StartPoint.Posx && c.Pos.Posy == StartPoint.Posy).ToList().First().id), (uint)(Cells.Where(c => c.Pos.Posx == neighbour.Pos.Posx && c.Pos.Posy == neighbour.Pos.Posy).ToList().First().id));
                 StartPoint = neighbour.Pos;
                 if (neighbour.Ansr) loop += 1;
                 path.Concat(result.GetPath());
