@@ -14,6 +14,7 @@ namespace BarbieWorld.Controller
         // TODO: Garantir que o loop de amigos contabiliza o caminho todo.
         public List<IEnumerable<uint>> search(Position StartPoint, List<MapCell> Cells, List<NPC> npcs)
         {
+            Position Home = StartPoint;
             var graph = new Graph<int, string>();
             foreach(MapCell cell in Cells)
             {
@@ -31,7 +32,7 @@ namespace BarbieWorld.Controller
                 }
             }
             //Variavél do caminho
-            IEnumerable<uint>[] path = new IEnumerable<uint>[npcs.Count]; 
+            IEnumerable<uint>[] path = new IEnumerable<uint>[npcs.Count+1]; 
 
             //Lista dos Resultados
             ShortestPathResult result;
@@ -55,12 +56,18 @@ namespace BarbieWorld.Controller
             {
                 neighbour = NextNeighbour(StartPoint, npcs);
                 npcs.Remove(neighbour);
-                result = graph.Dijkstra((uint)(Cells.Where(c => c.Pos.Posx == StartPoint.Posx && c.Pos.Posy == StartPoint.Posy).ToList().First().id), (uint)(Cells.Where(c => c.Pos.Posx == neighbour.Pos.Posx && c.Pos.Posy == neighbour.Pos.Posy).ToList().First().id));
+                result = graph.Dijkstra((uint)(Cells.Where(c => c.Pos.Posx == StartPoint.Posx && c.Pos.Posy == StartPoint.Posy).ToList().First().id), 
+                    (uint)(Cells.Where(c => c.Pos.Posx == neighbour.Pos.Posx && c.Pos.Posy == neighbour.Pos.Posy).ToList().First().id));
                 StartPoint = neighbour.Pos;
                 if (neighbour.Ansr) loop += 1;
                 path[aux] = result.GetPath();
                 aux++;
             } while (loop < 3);
+
+            //Return Home
+            result = graph.Dijkstra((uint)(Cells.Where(c => c.Pos.Posx == StartPoint.Posx && c.Pos.Posy == StartPoint.Posy).ToList().First().id),
+                    (uint)(Cells.Where(c => c.Pos.Posx == Home.Posx && c.Pos.Posy == Home.Posy).ToList().First().id));
+            path[aux] = result.GetPath();
 
             return path.ToList();
         }
