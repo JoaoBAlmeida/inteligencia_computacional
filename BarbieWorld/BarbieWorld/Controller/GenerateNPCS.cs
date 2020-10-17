@@ -18,18 +18,15 @@ namespace BarbieWorld.Controller
             for (int x = 0; x < qtd; x++)
             {
                 Position position = new Position();
-                var list_aux = new List<MapCell>();
                 do
                 {
-                    list_aux = new List<MapCell>();
                     position = new Position
                     {
                         Posx = new Random().Next(41)+1,
                         Posy = new Random().Next(41)+1
                     };
-                    list_aux = cells.Where(c => c.Pos == position && c.Color.Equals(System.Drawing.Color.Orange)).ToList();
                 } 
-                while (list_aux.Count != 0);
+                while (!(cells.Where(c => c.Pos.Posx.Equals(position.Posx) && c.Pos.Posy.Equals(position.Posy)).ToList().First().Habitable));
 
                 npcs.Add(new NPC
                 {

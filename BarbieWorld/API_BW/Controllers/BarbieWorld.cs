@@ -43,5 +43,11 @@ namespace API_BW.Controllers
         {
             return BW.GetMap();
         }
+
+        [HttpGet("GetCost")]
+        public List<uint> WalkCost()
+        {
+            return BW.GetCost();
+        }
     }
 }

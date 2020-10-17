@@ -47,6 +47,20 @@ namespace BarbieWorld.Controller
         {
             return Path;
         }
+
+        public List<uint> GetCost()
+        {
+            List<uint> cost = new List<uint>();
+            foreach(IEnumerable<uint> walk in Path)
+            {
+                if (!(walk == null))
+                    foreach(uint step in walk)
+                    {
+                        cost.Add((uint)(Cells.Where(c => c.id == step).ToList().First().Weight));
+                    }
+            }
+            return cost;
+        }
     }
 
     static class Extensions
